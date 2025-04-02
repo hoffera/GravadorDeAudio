@@ -19,8 +19,11 @@ Os links são armazenados no `localStorage` para persistência de dados, e o app
 - **Speech recognition API**: Para realizar a transcrição dos audios.
 
 ## Como Rodar o Aplicativo
-### 1. Acessar pelo Site
+### 1. Acessar pelo Site hospedado
+
+```bash
 https://gravador-de-audio-3xrf.vercel.app/
+```
 ### 2. Clonar o Repositório
 
 Clone o repositório do GitHub para o seu computador:
