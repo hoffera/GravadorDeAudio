@@ -13,6 +13,7 @@ class AudioPlayerElement extends HTMLElement {
         .audio-player {
           background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
           padding: 20px;
+          width: 700px;
           border-radius: 12px;
           display: inline-block;
           box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
