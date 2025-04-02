@@ -66,8 +66,11 @@ const AudioRecorder = () => {
   };
 
   const stopRecording = () => {
-    mediaRecorderRef.current.stop();
-    setIsRecording(false);
+    // Adiciona um atraso de 1 segundo antes de parar a gravação
+    setTimeout(() => {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }, 1000); // Atraso de 1 segundo (1000 ms)
   };
 
   const saveAudio = async (audioBlob, transcriptionText) => {
@@ -101,7 +104,7 @@ const AudioRecorder = () => {
       <h3>Gravações Salvas</h3>
       <div>
         {savedRecordings.map((rec) => (
-          <div key={rec.id} style={{ margin: "0.5rem"}}>
+          <div key={rec.id} style={{ margin: "0.5rem" }}>
             <AudioPlayer recording={rec} />
           </div>
         ))}
