@@ -101,7 +101,7 @@ const AudioRecorder = () => {
       <h3>Gravações Salvas</h3>
       <div>
         {savedRecordings.map((rec) => (
-          <div key={rec.id} style={{ margin: "0.5rem" }}>
+          <div key={rec.id} style={{ margin: "0.5rem", width: "200px", overflowY: "auto" }}>
             <AudioPlayer recording={rec} />
           </div>
         ))}
