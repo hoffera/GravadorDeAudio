@@ -5,8 +5,10 @@ const AudioRecorder = () => {
   const [audioUrl, setAudioUrl] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [savedRecordings, setSavedRecordings] = useState([]);
+  const [transcription, setTranscription] = useState("");
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
     loadSavedRecordings();
@@ -16,6 +18,27 @@ const AudioRecorder = () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     mediaRecorderRef.current = new MediaRecorder(stream);
     audioChunksRef.current = [];
+    setTranscription(""); // Reseta a transcrição anterior
+
+    // Configuração do SpeechRecognition
+    recognitionRef.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognitionRef.current.lang = "pt-BR";
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+
+    recognitionRef.current.onresult = (event) => {
+      let transcript = "";
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript + " ";
+      }
+      setTranscription(transcript.trim());
+    };
+
+    recognitionRef.current.onerror = () => {
+      console.error("Erro ao transcrever áudio.");
+    };
+
+    recognitionRef.current.start(); // Inicia transcrição
 
     mediaRecorderRef.current.ondataavailable = (event) => {
       if (event.data.size > 0) {
@@ -24,10 +47,11 @@ const AudioRecorder = () => {
     };
 
     mediaRecorderRef.current.onstop = async () => {
+      recognitionRef.current.stop(); // Para transcrição ao parar gravação
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       const url = URL.createObjectURL(audioBlob);
       setAudioUrl(url);
-      await saveAudio(audioBlob);
+      await saveAudio(audioBlob, transcription);
     };
 
     mediaRecorderRef.current.start();
@@ -39,13 +63,13 @@ const AudioRecorder = () => {
     setIsRecording(false);
   };
 
-  const saveAudio = async (audioBlob) => {
+  const saveAudio = async (audioBlob, transcriptionText) => {
     const reader = new FileReader();
     reader.readAsDataURL(audioBlob);
     reader.onloadend = () => {
       const base64Audio = reader.result;
       const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-      const newRecording = { id: `audio-${Date.now()}`, data: base64Audio, transcription: "Transcrição aqui" };
+      const newRecording = { id: `audio-${Date.now()}`, data: base64Audio, transcription: transcription };
       recordings.push(newRecording);
       localStorage.setItem("recordings", JSON.stringify(recordings));
       loadSavedRecordings();
@@ -57,22 +81,6 @@ const AudioRecorder = () => {
     setSavedRecordings(recordings);
   };
 
-  const deleteRecording = (id) => {
-    const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-    const updatedRecordings = recordings.filter((rec) => rec.id !== id);
-    localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
-    loadSavedRecordings();
-  };
-
-  const downloadRecording = (base64Data, filename) => {
-    const link = document.createElement("a");
-    link.href = base64Data;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <div>
       <h2>Gravador de Áudio</h2>
@@ -80,15 +88,18 @@ const AudioRecorder = () => {
         {isRecording ? "Parar Gravação" : "Iniciar Gravação"}
       </button>
 
+      <h3>Transcrição:</h3>
+      <p>{transcription || "Nenhuma transcrição disponível"}</p>
+
       <h3>Gravações Salvas</h3>
       <div>
-      {savedRecordings.map((rec) => (
-         <div style={{margin: "0.5rem"}}>
-        <AudioPlayer key={rec.id} recording={rec} />
-        </div>
-      ))}
+        {savedRecordings.map((rec) => (
+          <div key={rec.id} style={{ margin: "0.5rem" }}>
+            <AudioPlayer recording={rec} />
+          </div>
+        ))}
+      </div>
     </div>
-    </div >
   );
 };
 
