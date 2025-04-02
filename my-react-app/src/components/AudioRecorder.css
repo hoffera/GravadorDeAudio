@@ -1,0 +1,52 @@
+.record-btn {
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  padding: 30px;
+  background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  outline: none; /* Remove a borda branca no estado normal */
+}
+
+.record-btn:hover {
+  filter: drop-shadow(0 0 2em #6a1b9a);
+}
+
+.record-btn:focus, 
+.record-btn:active {
+  outline: none !important; /* Remove a borda branca ao focar/clicar */
+  box-shadow: none !important; /* Remove qualquer sombra extra */
+}
+
+.record-btn:active {
+  transform: scale(0.95);
+}
+
+.record-indicator {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import AudioPlayer from "./AudioPlayer";
+import "./AudioRecorder.css";
 
 const AudioRecorder = () => {
   const [audioUrl, setAudioUrl] = useState(null);
@@ -93,16 +94,26 @@ const AudioRecorder = () => {
 
   return (
     <div>
-      <h2>Gravador de Áudio</h2>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? "Parar Gravação" : "Iniciar Gravação"}
+      {
+        /* <button onClick={isRecording ? stopRecording : startRecording}>
+          {isRecording ? "Parar Gravação" : "Iniciar Gravação"}
+        </button> */
+      }
+
+      <button
+        onClick={isRecording ? stopRecording : startRecording}
+        className="record-btn"
+      >
+        {isRecording && <span className="record-indicator"></span>}
+        {isRecording ? "Parar" : "Gravar"}
       </button>
 
       <h3>Transcrição:</h3>
       <p>{transcription || "Nenhuma transcrição disponível"}</p>
 
-      <h3>Gravações Salvas</h3>
-      <div>
+      <h2>Gravações Salvas</h2>
+
+      <div style={{ margin: "1" }}>
         {savedRecordings.map((rec) => (
           <div key={rec.id} style={{ margin: "0.5rem" }}>
             <AudioPlayer recording={rec} />

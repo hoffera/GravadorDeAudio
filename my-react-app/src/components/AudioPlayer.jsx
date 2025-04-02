@@ -12,9 +12,9 @@ class AudioPlayerElement extends HTMLElement {
       <style>
         .audio-player {
           background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
-          padding: 20px;
-          width: 700px;
-          border-radius: 12px;
+          padding: 30px;
+          width: 500px;
+          border-radius: 20px;
           display: inline-block;
           box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
         }
@@ -23,19 +23,22 @@ class AudioPlayerElement extends HTMLElement {
           width: 100%;
           background: transparent; 
           filter: transparent;  
-          border-radius: 8px;
+          border-radius: 20px;
+          margin-top: 20px;
         }
 
         .transcription {
           font-style: italic;
           color: white;
-          margin-top: 10px;
+          
+
         }
       </style>
 
       <div class="audio-player">
+      <div class="transcription">Sem transcrição</div>
+
         <audio controls></audio>
-        <div class="transcription">Sem transcrição</div>
       </div>
     `;
   }
@@ -83,4 +86,3 @@ const AudioPlayer = ({ recording }) => {
 };
 
 export default AudioPlayer;
-
