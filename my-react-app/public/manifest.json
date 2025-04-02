@@ -1,0 +1,25 @@
+{
+    "id": "/",
+    "name": "Gravador de audio",
+    "short_name": "Gravador",
+    "theme_color": "#6a1b9a",
+    "background_color": "#ff4e42",
+    "display": "standalone",
+    "description": "APP Gravador de audio",
+    "orientation": "portrait",
+    "start_url": "/",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icons/icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "icons/icon512_rounded.png",
+            "type": "image/png"
+        }
+    ]
+}
