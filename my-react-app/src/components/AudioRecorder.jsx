@@ -52,34 +52,17 @@ const AudioRecorder = () => {
     };
   };
 
-  // const loadSavedRecordings = () => {
-  //   const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-  //   setSavedRecordings(recordings);
-  // };
-
   const loadSavedRecordings = () => {
     const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-    setSavedRecordings(recordings); // Certifique-se de que esta linha existe
-};
+    setSavedRecordings(recordings);
+  };
 
-  // const deleteRecording = (id) => {
-  //   const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-  //   const updatedRecordings = recordings.filter((rec) => rec.id !== id);
-  //   localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
-  //   loadSavedRecordings();
-  // };
   const deleteRecording = (id) => {
-    console.log("Tentando excluir:", id); // 🔍 Debug
-
     const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
     const updatedRecordings = recordings.filter((rec) => rec.id !== id);
-
-    console.log("Novo Local Storage:", updatedRecordings); // 🔍 Debug
-
     localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
-    setSavedRecordings(updatedRecordings); // Atualiza a UI
-};
-
+    loadSavedRecordings();
+  };
 
   const downloadRecording = (base64Data, filename) => {
     const link = document.createElement("a");
@@ -99,11 +82,13 @@ const AudioRecorder = () => {
 
       <h3>Gravações Salvas</h3>
       <div>
-        {savedRecordings.map((rec) => (
-          <AudioPlayer key={rec.id} recording={rec} onDelete={deleteRecording} onDownload={downloadRecording} />
-        ))}
-      </div>
+      {savedRecordings.map((rec) => (
+         <div style={{margin: "0.5rem"}}>
+        <AudioPlayer key={rec.id} recording={rec} />
+        </div>
+      ))}
     </div>
+    </div >
   );
 };
 
