@@ -94,12 +94,6 @@ const AudioRecorder = () => {
 
   return (
     <div>
-      {
-        /* <button onClick={isRecording ? stopRecording : startRecording}>
-          {isRecording ? "Parar Gravação" : "Iniciar Gravação"}
-        </button> */
-      }
-
       <button
         onClick={isRecording ? stopRecording : startRecording}
         className="record-btn"

@@ -11,13 +11,24 @@ class AudioPlayerElement extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         .audio-player {
-          background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
-          padding: 30px;
-          width: 500px;
-          border-radius: 20px;
-          display: inline-block;
-          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
+             background: linear-gradient(45deg, #6a1b9a, #ff4e42);
+            padding: 20px;
+            width:  400px;
+            margin: 0 auto;
+            max-width: 400px; /* Mantém o limite para não ficar muito grande */
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center; 
+          }
+
+        
+          @media (max-width: 400px) {
+            .audio-player {
+              padding: 10px;
+              width: 100%;
+            }
+          }
 
         .audio-player audio {
           width: 100%;
@@ -27,6 +38,7 @@ class AudioPlayerElement extends HTMLElement {
           margin-top: 20px;
         }
 
+
         .transcription {
           font-style: italic;
           color: white;
@@ -35,11 +47,13 @@ class AudioPlayerElement extends HTMLElement {
         }
       </style>
 
+     
       <div class="audio-player">
       <div class="transcription">Sem transcrição</div>
 
         <audio controls></audio>
       </div>
+     
     `;
   }
 
