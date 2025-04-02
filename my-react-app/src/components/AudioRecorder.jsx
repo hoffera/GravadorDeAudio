@@ -9,6 +9,7 @@ const AudioRecorder = () => {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const recognitionRef = useRef(null);
+  const transcriptionRef = useRef(""); // Variável local para capturar a transcrição final
 
   useEffect(() => {
     loadSavedRecordings();
@@ -18,7 +19,8 @@ const AudioRecorder = () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     mediaRecorderRef.current = new MediaRecorder(stream);
     audioChunksRef.current = [];
-    setTranscription(""); // Reseta a transcrição anterior
+    transcriptionRef.current = ""; // Reseta a transcrição anterior
+    setTranscription(""); // Reseta o estado da transcrição
 
     // Configuração do SpeechRecognition
     recognitionRef.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -31,7 +33,8 @@ const AudioRecorder = () => {
       for (let i = 0; i < event.results.length; i++) {
         transcript += event.results[i][0].transcript + " ";
       }
-      setTranscription(transcript.trim());
+      transcriptionRef.current = transcript.trim(); // Atualiza a referência com a transcrição final
+      setTranscription(transcript.trim()); // Atualiza o estado para exibição em tempo real
     };
 
     recognitionRef.current.onerror = () => {
@@ -47,11 +50,15 @@ const AudioRecorder = () => {
     };
 
     mediaRecorderRef.current.onstop = async () => {
-      recognitionRef.current.stop(); // Para transcrição ao parar gravação
+      // Para reconhecimento de voz antes de salvar
+      recognitionRef.current.stop();
+
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       const url = URL.createObjectURL(audioBlob);
       setAudioUrl(url);
-      await saveAudio(audioBlob, transcription);
+
+      // Salva o áudio e a transcrição final da referência
+      await saveAudio(audioBlob, transcriptionRef.current);
     };
 
     mediaRecorderRef.current.start();
@@ -69,7 +76,7 @@ const AudioRecorder = () => {
     reader.onloadend = () => {
       const base64Audio = reader.result;
       const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-      const newRecording = { id: `audio-${Date.now()}`, data: base64Audio, transcription: transcription };
+      const newRecording = { id: `audio-${Date.now()}`, data: base64Audio, transcription: transcriptionText };
       recordings.push(newRecording);
       localStorage.setItem("recordings", JSON.stringify(recordings));
       loadSavedRecordings();

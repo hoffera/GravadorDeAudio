@@ -10,45 +10,37 @@ class AudioPlayerElement extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
       <style>
-    .audio-player {
-        background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
-        padding: 20px;
+        .audio-player {
+          background: linear-gradient(45deg, #6a1b9a, #ff4e42); 
+          padding: 20px;
+          border-radius: 12px;
+          display: inline-block;
+          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
 
-        border-radius: 12px;
-        display: inline-block;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    }
+        .audio-player audio {
+          width: 100%;
+          background: transparent; 
+          filter: transparent;  
+          border-radius: 8px;
+        }
 
-    .audio-player audio {
-        width: 100%;
-        background: transparent; 
-        filter: transparent;  
-        border-radius: 8px;
-    }
+        .transcription {
+          font-style: italic;
+          color: white;
+          margin-top: 10px;
+        }
+      </style>
 
-    .transcription {
-        font-style: italic;
-        color: white;
-    }
-</style>
-
-<div class="audio-player">
-    <audio controls></audio>
-    <p><strong>Transcrição:</strong> <span class="transcription">Sem transcrição</span></p>
-</div>
-        `;
+      <div class="audio-player">
+        <audio controls></audio>
+        <div class="transcription">Sem transcrição</div>
+      </div>
+    `;
   }
 
   connectedCallback() {
     this.updateAttributes();
-
-    this.shadowRoot.querySelector(".download").addEventListener("click", () => {
-      const url = this.getAttribute("recording");
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `gravacao.webm`;
-      link.click();
-    });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -75,13 +67,19 @@ const AudioPlayer = ({ recording }) => {
     const playerElement = ref.current;
     if (!playerElement) return;
 
-    playerElement.setAttribute("recording", recording.data);
+    // Atualizar atributos apenas quando ambos (áudio e transcrição) estiverem prontos
+    playerElement.setAttribute("recording", recording.data || "");
     playerElement.setAttribute("transcription", recording.transcription || "Sem transcrição");
 
-    
+    // Garantir que o áudio seja recarregado
+    const audioElement = playerElement.shadowRoot.querySelector("audio");
+    if (audioElement) {
+      audioElement.load();
+    }
   }, [recording]);
 
   return <audio-player-element ref={ref}></audio-player-element>;
 };
 
 export default AudioPlayer;
+
