@@ -38,7 +38,7 @@ git clone https://github.com/hoffera/GravadorDeAudio
 Entre no diretório do projeto e instale as dependências:
 
 ```bash
-cd GravadorDeAudio
+cd AppM1\my-react-app
 npm install
 ```
 ### 4️⃣ Rodar o Projeto
