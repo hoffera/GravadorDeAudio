@@ -52,17 +52,34 @@ const AudioRecorder = () => {
     };
   };
 
+  // const loadSavedRecordings = () => {
+  //   const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
+  //   setSavedRecordings(recordings);
+  // };
+
   const loadSavedRecordings = () => {
     const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
-    setSavedRecordings(recordings);
-  };
+    setSavedRecordings(recordings); // Certifique-se de que esta linha existe
+};
 
+  // const deleteRecording = (id) => {
+  //   const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
+  //   const updatedRecordings = recordings.filter((rec) => rec.id !== id);
+  //   localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
+  //   loadSavedRecordings();
+  // };
   const deleteRecording = (id) => {
+    console.log("Tentando excluir:", id); // 🔍 Debug
+
     const recordings = JSON.parse(localStorage.getItem("recordings") || "[]");
     const updatedRecordings = recordings.filter((rec) => rec.id !== id);
+
+    console.log("Novo Local Storage:", updatedRecordings); // 🔍 Debug
+
     localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
-    loadSavedRecordings();
-  };
+    setSavedRecordings(updatedRecordings); // Atualiza a UI
+};
+
 
   const downloadRecording = (base64Data, filename) => {
     const link = document.createElement("a");
