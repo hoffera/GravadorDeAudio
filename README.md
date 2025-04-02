@@ -13,7 +13,8 @@ Os links são armazenados no `localStorage` para persistência de dados, e o app
 - 🔊 Integração com Media Session API para melhor controle de reprodução.
 
 ## 🛠 Tecnologias Utilizadas
--React: Framework para construção da interface.
+- Vite: Ferramenta de build para um desenvolvimento mais rápido.
+- React: Framework para construção da interface.
 - Web Components: Utilizado para criar componentes reutilizáveis e encapsulados.
 - Shadow DOM: Para isolar estilos e estrutura dos componentes.
 - LocalStorage: Para armazenar as gravações de forma persistente.
@@ -21,24 +22,31 @@ Os links são armazenados no `localStorage` para persistência de dados, e o app
 - Media Session API: Para interação com o sistema de reprodução de mídia do navegador.
 - Speech Recognition API: Para transcrição automática dos áudios.
 
-## Como Rodar o Aplicativo
-### 1. Acessar pelo Site hospedado
-
+## 📌 Como Rodar o Aplicativo
+### 1️⃣ Acessar pelo Navegador
+Acesse a versão online do aplicativo pelo seguinte link:
 ```bash
 https://gravador-de-audio-3xrf.vercel.app/
 ```
-### 2. Clonar o Repositório
-
-Clone o repositório do GitHub para o seu computador:
+### 2️⃣ Clonar o Repositório
+Se desejar rodar localmente, clone o repositório do GitHub:
 
 ```bash
 git clone https://github.com/hoffera/GravadorDeAudio
 ```
-
-Instalar a extensão:
+### 3️⃣ Instalar as Dependências
+Entre no diretório do projeto e instale as dependências:
 
 ```bash
-Live Server
+cd GravadorDeAudio
+npm install
+```
+### 4️⃣ Rodar o Projeto
+Inicie o aplicativo com:
+
+```bash
+npm run dev
 ```
 
-Após instalado, só clicar no botão Live Server para rodar a aplicação com melhor proveito.
+
+Desenvolvido por Artur Boettger e Felipe Hoffmeister 🚀
