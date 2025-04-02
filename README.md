@@ -1,5 +1,4 @@
-﻿# GravadorDeAudio
-
+﻿# Gravador de audio PWA
 
 Este é um aplicativo de **Web Component** que permite gravar audios, baixar eles e ver a transcrição. Ele utiliza a API de `Service Worker` para melhorar o desempenho offline e o armazenamento de links.
 Os links são armazenados no `localStorage` para persistência de dados, e o app utiliza Media Session API  para gravar e reproduzir áudios e a Speech recognition API que permite realizar a transcrição das gravações .
